@@ -13,7 +13,8 @@ export default async function handler(req, res) {
 You analyze land profiles and provide actionable, site-specific guidance.
 Be practical, specific to the user's climate zone and soil type, and think in terms of 
 permaculture zones, guilds, water harvesting, and succession planting.
-Keep your response under 800 words. Use clear sections with headers.`;
+Keep your response under 800 words. Use clear sections with markdown ## headers.
+Be warm but direct — like a knowledgeable neighbor who happens to be a permaculture expert.`;
 
   const userPrompt = `Analyze this land profile and provide a permaculture design assessment:
 
@@ -25,12 +26,21 @@ Annual rainfall: ${profile.annualRainfall || "Not specified"} inches
 Topography: ${profile.topography || "Not specified"}
 Goals: ${profile.goals || "General permaculture design"}
 
-Provide:
-1. Site assessment — strengths and challenges of this land
-2. Zone layout recommendation — what to put in zones 0-5
-3. Top 3 plant guilds suited to this site
-4. Water management strategy
-5. First-year action plan with seasonal timing`;
+Provide these sections with ## headers:
+## Site Assessment
+Strengths and challenges of this specific land.
+
+## Zone Layout
+What to put in zones 0-5, tailored to this acreage and topography.
+
+## Recommended Plant Guilds
+Top 3 guilds suited to this climate zone and soil, with specific species.
+
+## Water Strategy
+Water harvesting and management for this rainfall and terrain.
+
+## First-Year Action Plan
+Seasonal timing for the first year, starting from the current season.`;
 
   try {
     const message = await client.messages.create({
@@ -48,6 +58,6 @@ Provide:
     return res.status(200).json({ analysis: text });
   } catch (err) {
     console.error("Claude API error:", err);
-    return res.status(500).json({ error: "Analysis failed. Check your API key." });
+    return res.status(500).json({ error: "Analysis failed. Please try again." });
   }
 }
